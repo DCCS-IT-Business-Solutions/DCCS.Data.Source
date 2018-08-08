@@ -22,18 +22,6 @@ namespace DCCS.REST.Data
         {
             var result = data;
 
-            // Filtern...
-            //if (Query != null) {
-            //    foreach (var prop in Query.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)) {
-            //        string query = string.Format("{0}.StartsWith(\"{1}\")", prop.Name, prop.GetValue(Query, null));
-            //        result = result.Where(query);
-            //    }
-            //}
-            //if (!string.IsNullOrWhiteSpace(Query)) {
-
-            //    result = result.Where(Query);
-            //}
-
             // Sortieren...
             if (!string.IsNullOrWhiteSpace(OrderBy))
             {
@@ -85,7 +73,7 @@ namespace DCCS.REST.Data
                 }
             }
 
-            Data = tempresult.ToArray();
+            Data = (tempresult ?? new List<T>().AsQueryable()).ToArray();
         }
     }
 }

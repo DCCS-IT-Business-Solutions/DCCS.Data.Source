@@ -1,7 +1,6 @@
-using System;
 using NUnit.Framework;
 
-namespace DCCS.REST.Data
+namespace DCCS.REST.Data.Tests
 {
 
     [TestFixture]
