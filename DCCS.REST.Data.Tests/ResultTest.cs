@@ -60,8 +60,7 @@ namespace DCCS.REST.Data.Tests
         [Test]
         public void Should_return_correct_page_if_requested_page_not_available()
         {
-            var total = 100;
-            var data = new Faker<Dummy>().Generate(total);
+            var data = new Faker<Dummy>().Generate(100);
             var sut = new Result<Dummy>(new Params { Count = 200, Page = 2 }, data.AsQueryable());
 
             Assert.AreEqual(1, sut.Page);
