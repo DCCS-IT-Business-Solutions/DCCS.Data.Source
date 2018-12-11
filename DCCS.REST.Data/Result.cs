@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 
 namespace DCCS.REST.Data
 {
@@ -20,21 +21,7 @@ namespace DCCS.REST.Data
 
         public void SetData(IQueryable<T> data)
         {
-            var result = data;
-
-            // Sortieren...
-            if (!string.IsNullOrWhiteSpace(OrderBy))
-            {
-                //System.Linq.Dynamic.Core.DynamicQueryableExtensions.OrderBy()
-                result = result.OrderBy($"{OrderBy} {(Desc ? "desc" : "")}");
-            }
-            else if (data.Expression.Type != typeof(IOrderedQueryable<T>))
-            {
-                // Vor einem Skip (siehe unten) muß ein OrderBy aufgerufen werden.
-                // Ist keine Sortierung angegeben, müssen wir dennoch sortieren und behalten
-                // dabei die Reihenfolge bei.
-                result = result.OrderBy(x => true);
-            }
+            var result = Sort(data);
 
             Total = result.Count();
             if (Count.HasValue)
@@ -42,14 +29,52 @@ namespace DCCS.REST.Data
                 Count = Math.Min(Count.Value, Total);
             }
 
+            result = Paging(result);
 
+            Data = result.ToArray();
+        }
+
+        public Result<DTO> Select<DTO>(Expression<Func<T, DTO>> predicate)
+        {
+            return new Result<DTO>(new Params
+            {
+                Count = Count,
+                OrderBy = OrderBy,
+                Desc = Desc,
+                Page = Page
+            })
+            {
+                Data = Data.AsQueryable().Select(predicate)
+            };
+        }
+
+        protected IQueryable<T> Sort(IQueryable<T> data)
+        {
+            // Sortieren...
+            if (!string.IsNullOrWhiteSpace(OrderBy))
+            {
+                return data.OrderBy($"{OrderBy} {(Desc ? "desc" : "")}");
+            }
+            else if (data.Expression.Type != typeof(IOrderedQueryable<T>))
+            {
+                // Vor einem Skip (siehe unten) muß ein OrderBy aufgerufen werden.
+                // Ist keine Sortierung angegeben, müssen wir dennoch sortieren und behalten
+                // dabei die Reihenfolge bei.
+                return data.OrderBy(x => true);
+            }
+
+            return data;
+        }
+
+        protected IQueryable<T> Paging(IQueryable<T> data)
+        {
             // Pagen...
             IQueryable<T> tempresult = null; // Wird für "Kann diese Seite überhaupt angezeigt werden" benötigt
             if (Page.HasValue)
             {
                 if (!Count.HasValue) throw new ArgumentNullException("Bei angegebener Seite (page) muss auch die Anzahl der Einträge (count) angegeben werden!");
 
-                //Manuel 24.10.2016 
+                //Manuel 24.10.2016
                 //INFO: es wurde falsche ergebnisse geliefert weil "OrderBy>true" gefehlt hat. -> das sollte sich stephan nochmal anschauen
                 //Folgende anpassungen sind als Quickfix anzusehen und sollten noch optimiert werden
 
@@ -59,21 +84,22 @@ namespace DCCS.REST.Data
                 //Ohne OrderBy, da es eine Sortierung gibt
                 if (!string.IsNullOrWhiteSpace(OrderBy))
                 {
-                    tempresult = result.Skip(skip).Take(take);
+                    tempresult = data.Skip(skip).Take(take);
                 }
                 //Mit OrderBy, da es keine Sortierung gibt
                 else
                 {
-                    tempresult = result.Skip(skip).OrderBy(x => true).Take(take).OrderBy(x => true);
+                    tempresult = data.Skip(skip).OrderBy(x => true).Take(take).OrderBy(x => true);
                 }
                 if (!tempresult.Any())
                 {
                     Page = 1;
-                    tempresult = result.Take(Count.Value);
+                    tempresult = data.Take(Count.Value);
                 }
             }
 
-            Data = (tempresult ?? new List<T>().AsQueryable()).ToArray();
+            return (tempresult ?? new List<T>().AsQueryable());
+
         }
     }
 }

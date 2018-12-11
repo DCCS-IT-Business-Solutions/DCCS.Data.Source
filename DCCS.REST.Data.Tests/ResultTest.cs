@@ -14,6 +14,12 @@ namespace DCCS.REST.Data.Tests
         {
             public string Name { get; set; }
         }
+
+        class DummyDTO
+        {
+            public string Name { get; set; }
+            public int Length { get; set; }
+        }
         public ResultTest()
         {
             Randomizer.Seed = new Random(876543);
@@ -64,6 +70,17 @@ namespace DCCS.REST.Data.Tests
             var sut = new Result<Dummy>(new Params { Count = 200, Page = 2 }, data.AsQueryable());
 
             Assert.AreEqual(1, sut.Page);
+        }
+
+        [Test]
+        public void Should_map_data()
+        {
+            var data = new Faker<Dummy>().Generate(2);
+            var ps = new Params { Count = 10, Page = 1 };
+            var sut = new Result<Dummy>(ps, data.AsQueryable())
+                .Select(entry => new DummyDTO { Name = entry.Name, Length = (entry.Name ?? "").Length });
+
+            Assert.IsInstanceOf(typeof(DummyDTO), sut.Data.First());
         }
     }
 }
