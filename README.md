@@ -2,11 +2,11 @@
 
 ![Build Status](https://img.shields.io/appveyor/ci/stephanmeissner/dccs-rest-data.svg)
 
-![NuGet Version](https://img.shields.io/nuget/v/DCCS.REST.Data.svg)
+![NuGet Version](https://img.shields.io/nuget/v/DCCS.Data.Source.svg)
 
 ### Installing DCCS.Data.Source
 
-You should install [DCCS.Data.Source with NuGet](https://www.nuget.org/packages/DCCS.REST.Data/):
+You should install [DCCS.Data.Source with NuGet](https://www.nuget.org/packages/DCCS.Data.Source/):
 
     Install-Package DCCS.Data.Source
 

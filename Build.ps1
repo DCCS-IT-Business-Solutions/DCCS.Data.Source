@@ -60,4 +60,4 @@ $revision = "{0:D4}" -f [convert]::ToInt32($revision, 10)
 
 # exec { & dotnet test -c Release }
 
-exec { & dotnet pack .\DCCS.REST.Data -c Release -o .\artifacts --version-suffix=$revision }
+exec { & dotnet pack .\DCCS.Data.Source -c Release -o .\artifacts --version-suffix=$revision }
