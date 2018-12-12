@@ -1,6 +1,6 @@
 # DCCS.Data.Source
 
-![Build Status](https://img.shields.io/appveyor/ci/stephanmeissner/dccs-rest-data.svg)
+![Build Status](https://img.shields.io/appveyor/ci/stephanmeissner/dccs-data-source.svg)
 
 ![NuGet Version](https://img.shields.io/nuget/v/DCCS.Data.Source.svg)
 
