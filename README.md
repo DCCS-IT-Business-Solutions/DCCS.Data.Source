@@ -2,7 +2,7 @@
 
 DCCS.Data.Source helps with automatic sorting and paging of data. It was created, to support Html-DataGrids with sorting and paging.
 
-DCCS.Data.Source is supposed to get out of the programmers way and do as much as possible automatic.
+DCCS.Data.Source is supposed to get out of the programmers way and do as much as possible automaticly.
 
 ## Installation
 
