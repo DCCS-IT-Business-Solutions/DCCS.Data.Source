@@ -16,7 +16,8 @@ artifacts:
 deploy:
   - provider: NuGet
     name: production
-    api_key: $env:NUGET_API_KEY
+    api_key:
+      secure: jI+YdI+ldoUfMjQ6ychDsgemAZJcQn/A8KxB6bpAmNgF9TlxhanQBXzu+joNL5Ap
     skip_symbols: true
     symbol_server:
     on:
