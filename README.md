@@ -48,12 +48,12 @@ The resulting JSON looks like this:
     "data": [
         {"name": "user 1", ...},
         {"name": "user 2", ...},
-        ...
+        // ...
     ],
-    page: 0,
-    count: 10,
-    orderBy: "name",
-    desc: false
+    "page": 0,
+    "count": 10,
+    "orderBy": "name",
+    "desc": false
 }
 ```
 
