@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DCCS.REST.Data\DCCS.REST.Data.csproj" />
+    <ProjectReference Include="..\DCCS.Data.Source\DCCS.Data.Source.csproj" />
   </ItemGroup>
 
 </Project>

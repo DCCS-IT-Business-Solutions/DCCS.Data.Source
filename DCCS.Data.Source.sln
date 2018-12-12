@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DCCS.REST.Data", "DCCS.REST.Data\DCCS.REST.Data.csproj", "{A1462C65-8A34-4D1C-9ACE-68BE5E1DB79B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DCCS.Data.Source", "DCCS.Data.Source\DCCS.Data.Source.csproj", "{A1462C65-8A34-4D1C-9ACE-68BE5E1DB79B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DCCS.REST.Data.Tests", "DCCS.REST.Data.Tests\DCCS.REST.Data.Tests.csproj", "{D1410498-5D3B-4CC2-9EE0-CE3CD6C91CD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DCCS.Data.Source.Tests", "DCCS.Data.Source.Tests\DCCS.Data.Source.Tests.csproj", "{D1410498-5D3B-4CC2-9EE0-CE3CD6C91CD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

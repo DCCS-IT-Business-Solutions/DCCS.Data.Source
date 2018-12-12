@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DCCS.REST.Data
+namespace DCCS.Data.Source
 {
     public class Params
     {

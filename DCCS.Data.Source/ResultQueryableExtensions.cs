@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 
-namespace DCCS.REST.Data
+namespace DCCS.Data.Source
 {
     public static class ResultQueryableExtensions
     {
