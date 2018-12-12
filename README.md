@@ -43,7 +43,7 @@ You can also use the IQueryable extension method.
 
 The resulting JSON looks like this:
 
-```json
+```javascript
 {
     "data": [
         {"name": "user 1", ...},
