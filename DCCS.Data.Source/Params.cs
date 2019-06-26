@@ -25,7 +25,5 @@ namespace DCCS.Data.Source
         public int? Count { get; set; }
         public string OrderBy { get; set; }
         public bool Desc { get; set; }
-
-
     }
 }
