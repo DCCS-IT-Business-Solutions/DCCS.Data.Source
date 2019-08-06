@@ -50,7 +50,7 @@ The resulting JSON looks like this:
         {"name": "user 2", ...},
         // ...
     ],
-    "page": 0,
+    "page": 1,
     "count": 10,
     "orderBy": "name",
     "desc": false
