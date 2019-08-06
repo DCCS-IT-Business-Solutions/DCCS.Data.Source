@@ -16,5 +16,14 @@ namespace DCCS.Data.Source
             }
             return new Result<T>(ps, source);
         }
+
+        public static ResultWithoutTotal<T> ToResultWithoutTotal<T>(this IQueryable<T> source, Params ps)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            return new ResultWithoutTotal<T>(ps, source);
+        }
     }
 }

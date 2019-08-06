@@ -34,5 +34,36 @@ namespace DCCS.Data.Source.Tests
 
             Assert.AreEqual(total, sut.Total);
         }
+
+        [Test]
+        public void Should_create_Result_without_Total()
+        {
+            var total = 100;
+            var data = new Faker<Dummy>().Generate(total);
+            var sut = data.AsQueryable().ToResultWithoutTotal(new Params());
+            Assert.IsNotNull(sut);
+        }
+
+
+        [Test]
+        public void Should_create_ResultWithoutTotal_to_less_results()
+        {
+            var total = 100;
+            var data = new Faker<Dummy>().Generate(total);
+            var sut = data.AsQueryable().ToResultWithoutTotal(new Params { Page = 1, Count = 10000 });
+            Assert.AreEqual(100, sut.Data.Count());
+        }
+
+        [Test]
+        public void Should_create_ResultWithoutTotal_with_first_page()
+        {
+            var total = 100;
+            var data = new Faker<Dummy>().Generate(total);
+            // We request a none existing page, this should fallback in returning the first page
+            var sut = data.AsQueryable().ToResultWithoutTotal(new Params { Page = 1000, Count = 10 });
+            Assert.AreEqual(1, sut.Page);
+            Assert.AreEqual(10, sut.Data.Count());
+        }
+
     }
 }
