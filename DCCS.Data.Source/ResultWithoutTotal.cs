@@ -19,6 +19,12 @@ namespace DCCS.Data.Source
                 SetData(data);
         }
 
+        public ResultWithoutTotal(Params ps, IEnumerable<T> data) : base(ps)
+        {
+            Data = data;
+            Count = Data.Count();
+        }
+
         public virtual void SetData(IQueryable<T> data)
         {
             if (data == null)

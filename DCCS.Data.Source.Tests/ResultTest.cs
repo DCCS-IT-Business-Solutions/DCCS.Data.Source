@@ -82,5 +82,19 @@ namespace DCCS.Data.Source.Tests
 
             Assert.IsInstanceOf(typeof(DummyDTO), sut.Data.First());
         }
+
+        [Test]
+        public void Should_bootstrap_from_provided_data()
+        {
+            var data = new Faker<Dummy>().Generate(13);
+            var ps = new Params { Count = 10, Page = 1 };
+            var sut = new Result<Dummy>(ps, data.AsEnumerable());
+
+            Assert.AreEqual(sut.Count, data.Count());
+            Assert.AreEqual(sut.Desc, ps.Desc);
+            Assert.AreEqual(sut.OrderBy, ps.OrderBy);
+            Assert.AreEqual(sut.Page, ps.Page);
+            Assert.AreEqual(sut.Total, 0);
+        }
     }
 }

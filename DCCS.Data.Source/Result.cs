@@ -12,6 +12,8 @@ namespace DCCS.Data.Source
         {
         }
 
+        public Result(Params ps, IEnumerable<T> data) : base(ps, data) { }
+
         public override void SetData(IQueryable<T> data)
         {
             if (data == null)
