@@ -12,7 +12,10 @@ namespace DCCS.Data.Source
         {
         }
 
-        public Result(Params ps, IEnumerable<T> data) : base(ps, data) { }
+        public Result(Params ps, IEnumerable<T> data, int total) : base(ps, data)
+        {
+            Total = total;
+        }
 
         public override void SetData(IQueryable<T> data)
         {

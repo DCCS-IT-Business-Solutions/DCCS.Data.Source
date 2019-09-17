@@ -88,13 +88,13 @@ namespace DCCS.Data.Source.Tests
         {
             var data = new Faker<Dummy>().Generate(13);
             var ps = new Params { Count = 10, Page = 1 };
-            var sut = new Result<Dummy>(ps, data.AsEnumerable());
+            var sut = new Result<Dummy>(ps, data.AsEnumerable(), 99);
 
             Assert.AreEqual(sut.Count, data.Count());
             Assert.AreEqual(sut.Desc, ps.Desc);
             Assert.AreEqual(sut.OrderBy, ps.OrderBy);
             Assert.AreEqual(sut.Page, ps.Page);
-            Assert.AreEqual(sut.Total, 0);
+            Assert.AreEqual(sut.Total, 99);
         }
     }
 }
