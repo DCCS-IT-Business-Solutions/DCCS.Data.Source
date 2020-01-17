@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace DCCS.Data.Source
 {
@@ -54,6 +55,11 @@ namespace DCCS.Data.Source
             // Sortieren...
             if (!string.IsNullOrWhiteSpace(OrderBy))
             {
+                var members = typeof(T).GetMember(OrderBy, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+                if (!members.Any(m => m is FieldInfo || m is PropertyInfo))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(OrderBy), OrderBy, $"Order by with '{OrderBy}' is not allowed");
+                }
                 return data.OrderBy($"{OrderBy} {(Desc ? "desc" : "")}");
             }
             else if (data.Expression.Type != typeof(IOrderedQueryable<T>))
@@ -98,7 +104,18 @@ namespace DCCS.Data.Source
                     tempresult = data.Take(Count.Value);
                 }
             }
-
+            else
+            {
+                Page = 1;
+                if (Count.HasValue)
+                {
+                    tempresult = data.Take(Count.Value);
+                }
+                else
+                {
+                    tempresult = data;
+                }
+            }
             return (tempresult ?? new List<T>().AsQueryable());
 
         }

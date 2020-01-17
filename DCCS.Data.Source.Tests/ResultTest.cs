@@ -96,5 +96,45 @@ namespace DCCS.Data.Source.Tests
             Assert.AreEqual(sut.Page, ps.Page);
             Assert.AreEqual(sut.Total, 99);
         }
+
+
+        [Test]
+        public void Should_order_data()
+        {
+            var data = new List<Dummy>();
+            data.Add(new Dummy { Name = "2" });
+            data.Add(new Dummy { Name = "1" });
+            data.Add(new Dummy { Name = "7" });
+            var ps = new Params { OrderBy = "name" };
+            var sut = new Result<Dummy>(ps, data.AsQueryable());            
+            var sorted = sut.Data.ToArray();
+            
+            Assert.AreEqual("1", sorted[0].Name);
+            Assert.AreEqual("2", sorted[1].Name);
+            Assert.AreEqual("7", sorted[2].Name);
+
+        }
+
+
+        [Test]
+        public void Should_fail_for_invalid_order()
+        {
+            var data = new List<Dummy>();
+            data.Add(new Dummy { Name = "2" });
+            data.Add(new Dummy { Name = "1" });
+            data.Add(new Dummy { Name = "7" });
+            var ps = new Params { OrderBy = "name'" };
+            try
+            {
+                var sut = new Result<Dummy>(ps, data.AsQueryable());
+                var sorted = sut.Data.ToArray();
+                Assert.Fail("Exception not thrown");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
+            }
+
+        }
     }
 }
