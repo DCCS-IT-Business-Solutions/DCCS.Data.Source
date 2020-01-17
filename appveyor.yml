@@ -17,7 +17,7 @@ deploy:
   - provider: NuGet
     name: production
     api_key:
-      secure: jI+YdI+ldoUfMjQ6ychDsgemAZJcQn/A8KxB6bpAmNgF9TlxhanQBXzu+joNL5Ap
+      secure: YB5IVAcX/7Q0eFeFcHh9Fy17vCwxKyhMJQOKcfPN5FDJhu/XKCCgYJ2DzwOuRnWP
     skip_symbols: true
     symbol_server:
     on:
