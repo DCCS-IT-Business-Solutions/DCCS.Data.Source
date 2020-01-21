@@ -79,7 +79,8 @@ namespace DCCS.Data.Source
             IQueryable<T> tempresult = null; // Wird für "Kann diese Seite überhaupt angezeigt werden" benötigt
             if (Page.HasValue)
             {
-                if (!Count.HasValue) throw new ArgumentNullException("Bei angegebener Seite (page) muss auch die Anzahl der Einträge (count) angegeben werden!");
+                if (!Count.HasValue) 
+                    throw new ArgumentNullException($"With specified {nameof(Page)} is the {nameof(Count)} required");
 
                 //Manuel 24.10.2016
                 //INFO: es wurde falsche ergebnisse geliefert weil "OrderBy>true" gefehlt hat. -> das sollte sich stephan nochmal anschauen
@@ -106,7 +107,6 @@ namespace DCCS.Data.Source
             }
             else
             {
-                Page = 1;
                 if (Count.HasValue)
                 {
                     tempresult = data.Take(Count.Value);
