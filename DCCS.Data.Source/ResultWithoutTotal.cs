@@ -113,6 +113,7 @@ namespace DCCS.Data.Source
             }
             else
             {
+                Page = 1;
                 if (Count.HasValue)
                 {
                     tempresult = data.Take(Count.Value);
