@@ -30,10 +30,16 @@ namespace DCCS.Data.Source
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            var result = Sort(data);
-
-            result = Paging(result);
-            Data = result.ToArray();
+            if (Count.HasValue && Count.Value == 0)
+            {
+                Data = new List<T>();
+            }
+            else
+            {
+                var result = Sort(data);
+                result = Paging(result);
+                Data = result.ToArray();
+            }
         }
 
         public Result<DTO> Select<DTO>(Expression<Func<T, DTO>> predicate)
@@ -79,7 +85,8 @@ namespace DCCS.Data.Source
             IQueryable<T> tempresult = null; // Wird für "Kann diese Seite überhaupt angezeigt werden" benötigt
             if (Page.HasValue)
             {
-                if (!Count.HasValue) throw new ArgumentNullException("Bei angegebener Seite (page) muss auch die Anzahl der Einträge (count) angegeben werden!");
+                if (!Count.HasValue) 
+                    throw new ArgumentNullException($"With specified {nameof(Page)} is the {nameof(Count)} required");
 
                 //Manuel 24.10.2016
                 //INFO: es wurde falsche ergebnisse geliefert weil "OrderBy>true" gefehlt hat. -> das sollte sich stephan nochmal anschauen
