@@ -30,10 +30,16 @@ namespace DCCS.Data.Source
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            var result = Sort(data);
-
-            result = Paging(result);
-            Data = result.ToArray();
+            if (Count.HasValue && Count.Value == 0)
+            {
+                Data = new List<T>();
+            }
+            else
+            {
+                var result = Sort(data);
+                result = Paging(result);
+                Data = result.ToArray();
+            }
         }
 
         public Result<DTO> Select<DTO>(Expression<Func<T, DTO>> predicate)
