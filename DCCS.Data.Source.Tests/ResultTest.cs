@@ -84,17 +84,33 @@ namespace DCCS.Data.Source.Tests
         }
 
         [Test]
-        public void Should_bootstrap_from_provided_data()
+        public void Should_bootstrap_from_provided_enumerable()
         {
             var data = new Faker<Dummy>().Generate(13);
             var ps = new Params { Count = 10, Page = 1 };
-            var sut = new Result<Dummy>(ps, data.AsEnumerable(), 99);
+            var total = 99;
+            var sut = new Result<Dummy>(ps, data.AsEnumerable(), total);
 
             Assert.AreEqual(sut.Count, data.Count());
             Assert.AreEqual(sut.Desc, ps.Desc);
             Assert.AreEqual(sut.OrderBy, ps.OrderBy);
             Assert.AreEqual(sut.Page, ps.Page);
-            Assert.AreEqual(sut.Total, 99);
+            Assert.AreEqual(sut.Total, total);
+        }
+
+        [Test]
+        public void Should_not_sort_provided_enumerable()
+        {
+            // Arrage
+            var data = new Faker<Dummy>().Generate(13).OrderByDescending(d => d.Name);
+            var ps = new Params { Count = 10, Page = 1 };
+
+            // Act
+            var sut = new Result<Dummy>(ps, data.AsEnumerable(), data.Count());
+
+            // Assert
+            Assert.AreEqual(sut.Data.First(), data.First());
+            Assert.AreEqual(sut.Total, data.Count());
         }
 
 
@@ -106,9 +122,9 @@ namespace DCCS.Data.Source.Tests
             data.Add(new Dummy { Name = "1" });
             data.Add(new Dummy { Name = "7" });
             var ps = new Params { OrderBy = "name" };
-            var sut = new Result<Dummy>(ps, data.AsQueryable());            
+            var sut = new Result<Dummy>(ps, data.AsQueryable());
             var sorted = sut.Data.ToArray();
-            
+
             Assert.AreEqual("1", sorted[0].Name);
             Assert.AreEqual("2", sorted[1].Name);
             Assert.AreEqual("7", sorted[2].Name);
@@ -136,5 +152,40 @@ namespace DCCS.Data.Source.Tests
             }
 
         }
+
+        [Test]
+        public void Should_not_sort_if_unchecked()
+        {
+            // Arrange
+            var data = new List<Dummy>();
+            data.Add(new Dummy { Name = "2" });
+            data.Add(new Dummy { Name = "1" });
+            data.Add(new Dummy { Name = "7" });
+            var ps = new Params { OrderBy = "name" };
+            // Act
+            var sut = new Result<Dummy>(ps, data.AsQueryable(), sort: false);
+
+            // Assert
+            var sorted = sut.Data.ToArray();
+
+            Assert.AreEqual("2", sorted[0].Name);
+            Assert.AreEqual("1", sorted[1].Name);
+            Assert.AreEqual("7", sorted[2].Name);
+
+        }
+
+        [Test]
+        public void Should_not_page_if_unchecked()
+        {
+            // Arrange
+            var data = new Faker<Dummy>().Generate(13);
+            var ps = new Params { Page = 2, Count = 10 };
+            // Act
+            var sut = new Result<Dummy>(ps, data.AsQueryable(), page: false);
+
+            // Assert
+            Assert.AreEqual(data.Count(), sut.Data.Count());
+        }
+
     }
 }
