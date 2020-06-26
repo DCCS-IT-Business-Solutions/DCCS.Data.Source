@@ -29,6 +29,23 @@ namespace DCCS.Data.Source
             base.SetData(data, sort: sort, page: page);
         }
 
+        public new Result<DTO> Select<DTO>(Expression<Func<T, DTO>> predicate)
+        {
+            var result = new Result<DTO>(new Params
+            {
+                Count = Count,
+                OrderBy = OrderBy,
+                Desc = Desc,
+                Page = Page,
+            })
+            {
+                Data = Data.AsQueryable().Select(predicate)
+            };
+            result.Total = this.Total;
+
+            return result;
+        }
+
         public int Total { get; set; }
     }
 }

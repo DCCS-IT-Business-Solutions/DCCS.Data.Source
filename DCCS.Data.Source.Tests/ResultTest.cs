@@ -81,6 +81,8 @@ namespace DCCS.Data.Source.Tests
                 .Select(entry => new DummyDTO { Name = entry.Name, Length = (entry.Name ?? "").Length });
 
             Assert.IsInstanceOf(typeof(DummyDTO), sut.Data.First());
+            Assert.AreEqual(data.Count(), sut.Count);
+            Assert.AreEqual(data.Count(), sut.Total);
         }
 
         [Test]
@@ -171,6 +173,8 @@ namespace DCCS.Data.Source.Tests
             Assert.AreEqual("2", sorted[0].Name);
             Assert.AreEqual("1", sorted[1].Name);
             Assert.AreEqual("7", sorted[2].Name);
+
+            Assert.AreEqual(3, sut.Total);
 
         }
 

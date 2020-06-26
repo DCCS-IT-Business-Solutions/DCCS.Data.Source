@@ -45,14 +45,14 @@ namespace DCCS.Data.Source
             }
         }
 
-        public Result<DTO> Select<DTO>(Expression<Func<T, DTO>> predicate)
+        public virtual ResultWithoutTotal<DTO> Select<DTO>(Expression<Func<T, DTO>> predicate)
         {
-            return new Result<DTO>(new Params
+            return new ResultWithoutTotal<DTO>(new Params
             {
                 Count = Count,
                 OrderBy = OrderBy,
                 Desc = Desc,
-                Page = Page
+                Page = Page,
             })
             {
                 Data = Data.AsQueryable().Select(predicate)
