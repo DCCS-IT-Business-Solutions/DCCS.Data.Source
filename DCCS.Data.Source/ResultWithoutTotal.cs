@@ -14,10 +14,12 @@ namespace DCCS.Data.Source
         public ResultWithoutTotal(Params ps) : base(ps)
         { }
 
-        public ResultWithoutTotal(Params ps, IQueryable<T> data) : base(ps)
+        public ResultWithoutTotal(Params ps, IQueryable<T> data, bool sort = true, bool page = true) : base(ps)
         {
             if (data != null)
-                SetData(data);
+            {
+                SetData(data, sort: sort, page: page);
+            }
         }
 
         public ResultWithoutTotal(Params ps, IEnumerable<T> data) : base(ps)
@@ -26,7 +28,7 @@ namespace DCCS.Data.Source
             Count = Data.Count();
         }
 
-        public virtual void SetData(IQueryable<T> data)
+        public virtual void SetData(IQueryable<T> data, bool sort, bool page)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -36,8 +38,9 @@ namespace DCCS.Data.Source
             }
             else
             {
-                var result = Sort(data);
-                result = Paging(result);
+                var result = data;
+                if (sort) { result = Sort(result); }
+                if (page) { result = Paging(result); }
                 Data = result.ToArray();
             }
         }
@@ -85,7 +88,7 @@ namespace DCCS.Data.Source
             IQueryable<T> tempresult = null; // Wird für "Kann diese Seite überhaupt angezeigt werden" benötigt
             if (Page.HasValue)
             {
-                if (!Count.HasValue) 
+                if (!Count.HasValue)
                     throw new ArgumentNullException($"With specified {nameof(Page)} is the {nameof(Count)} required");
 
                 //Manuel 24.10.2016
