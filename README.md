@@ -57,6 +57,11 @@ The resulting JSON looks like this:
 }
 ```
 
+You can skip sorting and paging if necessary:
+```csharp
+return new Result<T>(ps, data, sort: false, page: false);
+```
+
 If you need to transform (`Select`) the sorted and paged data, you can use the `Result<T>.Select` method. Like this:
 
 ```csharp
